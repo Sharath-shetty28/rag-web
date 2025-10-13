@@ -1,0 +1,12 @@
+requests
+beautifulsoup4
+readability-lxml
+tldextract
+lxml
+google-generativeai
+python-dotenv
+fastapi
+uvicorn
+sentence-transformers
+faiss-cpu
+tqdm

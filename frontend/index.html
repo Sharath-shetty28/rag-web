@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG Service Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧠 RAG Service Dashboard</h1>
+
+      <!-- Crawl Section -->
+      <section>
+        <h2>🌐 Crawl Website</h2>
+        <form id="crawlForm">
+          <input
+            type="text"
+            id="start_url"
+            placeholder="Enter starting URL"
+            required
+          />
+          <input
+            type="number"
+            id="max_pages"
+            placeholder="Max pages (default 20)"
+          />
+          <input type="number" id="crawl_delay_ms" placeholder="Delay (ms)" />
+          <button type="submit">Start Crawl</button>
+        </form>
+        <pre id="crawlResult"></pre>
+      </section>
+
+      <hr />
+
+      <!-- Index Section -->
+      <section>
+        <h2>📚 Build Index</h2>
+        <form id="indexForm">
+          <input
+            type="text"
+            id="embedding_model"
+            placeholder="Model (default all-MiniLM-L6-v2)"
+          />
+          <button type="submit">Build Index</button>
+        </form>
+        <pre id="indexResult"></pre>
+      </section>
+
+      <hr />
+
+      <!-- Ask Section -->
+      <section>
+        <h2>❓ Ask a Question</h2>
+        <form id="askForm">
+          <textarea
+            id="question"
+            placeholder="Type your question here..."
+            required
+          ></textarea>
+          <input type="number" id="top_k" placeholder="Top K (default 3)" />
+          <button type="submit">Ask</button>
+        </form>
+        <pre id="askResult"></pre>
+      </section>
+    </div>
+
+    <footer>
+      <button id="clearButton">Clear All Data</button>
+      <p>
+        Developed by
+        <a href="https://sharathshetty.me" target="_blank">Sharath Shetty</a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
