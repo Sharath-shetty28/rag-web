@@ -41,11 +41,9 @@ def generate_answer(question, context_chunks, llm ,use_gemini=False):
     context = "\n\n".join([f"Source: {c['url']}\n{c['text']}" for c in context_chunks])
 
     prompt = (
-        "Answer the question using only the CONTEXT below. "
-        "If the answer is not present, say 'not found in crawled content'.\n\n"
+        "You are a strict information assistant. Use ONLY the CONTEXT below to answer. Do NOT use outside knowledge. Answer the question using only the CONTEXT below.  If the answer cannot be derived from the CONTEXT, respond exactly: `not found in crawled content`' and include the most relevant snippets and their URLs."
         f"QUESTION: {question}\n\nCONTEXT:\n{context}\n\nANSWER:"
     )
-
     if use_gemini:
         response = llm.generate_content(prompt)
         return response.text.strip()
