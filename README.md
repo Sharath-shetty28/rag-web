@@ -280,8 +280,14 @@ uvicorn server:app --reload
 | 🚫 Unanswerable | “What is my IP address ?” | Responds: “Not found in crawled content.” |
 
 
-* Run -> python eval_queries.py     
-                      
+### Run the test file
+
+- For the metrics
+
+```bash
+python eval_queries.py
+```
+         
 ### 🧾 Metrics Logged
 
 ```bash
@@ -295,3 +301,14 @@ uvicorn server:app --reload
 }
 
 ```
+
+### 🧮 Latency Metrics (Sample Run)
+| Metric | Value (ms) |
+|--------|-------------|
+| p50 | 8191.8 |
+| p95 | 15841.6 |
+| min | 7167.5 |
+| max | 16691.5 |
+
+> Average query: ~8 s. Tail latency driven by model generation.  
+> Retrieval and embedding times were sub-second, confirming that generation is the primary contributor.
