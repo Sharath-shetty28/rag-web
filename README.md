@@ -136,10 +136,10 @@ uvicorn server:app --reload
 
 ```
 ### 📊 Example Demo Flow
-1.Crawl → Provide a website (e.g., https://fastapi.tiangolo.com)
-2.Index → Choose chunk size and embedding model (default: all-MiniLM-L6-v2)
-3.Ask → Ask a question like “What is FastAPI?”
-4.Observe → The model answers using only crawled text, citing sources.
+* Crawl → Provide a website (e.g., https://fastapi.tiangolo.com)
+* Index → Choose chunk size and embedding model (default: all-MiniLM-L6-v2)
+* Ask → Ask a question like “What is FastAPI?”
+* Observe → The model answers using only crawled text, citing sources.
 
 
 
