@@ -28,9 +28,23 @@ Setup: venv, pip install requirements, run server.py
 
 Next Steps: Can add multi-domain crawling, larger models, or async crawling
 
+# 🧠 RAG Web Project — Website Crawler + Index + Q&A API
+
+## 📋 Overview
+This project implements a **Retrieval-Augmented Generation (RAG)** pipeline that crawls a website, extracts and indexes its textual content, and answers user questions grounded **strictly** in the crawled data — with **citations** of source URLs.
+
+---
+
+## ⚙️ Architecture
+**Pipeline Flow:**
 
 
 
+```bash
+Crawl Website → Extract & Clean Text → Chunk & Embed → Store in Vector Index → Retrieve Top-K → Generate Grounded Answer
+
+```
+    
 ## Main Components:
 | Component | Description                                                                                 |
 | --------- | ------------------------------------------------------------------------------------------- |
