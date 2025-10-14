@@ -24,9 +24,9 @@ app.add_middleware(
 )
 
 # include routers
-app.include_router(crawl_router, prefix="/api", tags=["Crawl"])
-app.include_router(index_router, prefix="/api", tags=["Index"])
-app.include_router(ask_router, prefix="/api", tags=["Ask"])
+app.include_router(crawl_router, tags=["Crawl"])
+app.include_router(index_router, tags=["Index"])
+app.include_router(ask_router, tags=["Ask"])
 
 @app.get("/")
 def home():

@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000/api"; // your FastAPI backend
+const BASE_URL = "http://127.0.0.1:8000"; // your FastAPI backend
 
 // ---- Crawl ----
 document.getElementById("crawlForm").addEventListener("submit", async (e) => {
