@@ -1,5 +1,5 @@
 from routes.ask_routes import ask
-from backend.core.metrics import compute_latency_stats
+from core.metrics import compute_latency_stats
 
 # Example small test set
 test_questions = [

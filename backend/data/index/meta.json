@@ -1,0 +1,46 @@
+[
+  {
+    "url": "https://www.djangoproject.com",
+    "chunk_len": 719
+  },
+  {
+    "url": "https://www.djangoproject.com/",
+    "chunk_len": 719
+  },
+  {
+    "url": "https://www.djangoproject.com/start/overview/",
+    "chunk_len": 1401
+  },
+  {
+    "url": "https://www.djangoproject.com/download/",
+    "chunk_len": 197
+  },
+  {
+    "url": "https://docs.djangoproject.com/",
+    "chunk_len": 197
+  },
+  {
+    "url": "https://www.djangoproject.com/weblog/",
+    "chunk_len": 197
+  },
+  {
+    "url": "https://www.djangoproject.com/community/",
+    "chunk_len": 420
+  },
+  {
+    "url": "https://code.djangoproject.com/",
+    "chunk_len": 59
+  },
+  {
+    "url": "https://www.djangoproject.com/foundation/",
+    "chunk_len": 197
+  },
+  {
+    "url": "https://www.djangoproject.com/fundraising/",
+    "chunk_len": 4911
+  },
+  {
+    "url": "https://www.djangoproject.com/fundraising/",
+    "chunk_len": 3837
+  }
+]
