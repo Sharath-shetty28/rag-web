@@ -1,33 +1,3 @@
-Project: Mini Retrieval-Augmented Generation (RAG) system for any website
-
-Language: Python 3.10+
-
-Crawling: Polite, in-domain, 30–50 pages max, uses readability-lxml
-
-Indexing: Chunk size 800, overlap 100, embeddings via all-MiniLM-L6-v2, stored in FAISS
-
-RAG Retrieval: Top-k semantic search + grounded prompt to LLM
-
-LLM: Open-source local (e.g., Gemma-2b, Phi-2)
-
-Refusals: Returns “not found in crawled content” if answer missing
-
-API: FastAPI with /crawl, /index, /ask endpoints
-
-Observability: Retrieval/generation/total latency logged, p50/p95 computed
-
-Query Logging: Stores each question, answer, sources, and timings
-
-Evaluation: Small test set demonstrates answerable + unanswerable queries
-
-Safety: Context-only answering, ignores page instructions, stays within domain
-
-Tradeoffs: Does not render JavaScript-heavy sites, only HTML content
-
-Setup: venv, pip install requirements, run server.py
-
-Next Steps: Can add multi-domain crawling, larger models, or async crawling
-
 # 🧠 RAG Web Project — Website Crawler + Index + Q&A API
 
 ## 📋 Overview
@@ -160,47 +130,38 @@ uvicorn server:app --reload
 ```
 
 5. Open Frontend (HTML)
+```bash
+ Open frontend/index.html in your browser.
+ http://127.0.0.1:3000/frontend/index.html
 
-Open frontend/index.html in your browser.
-
+```
 ### 📊 Example Demo Flow
-
 1.Crawl → Provide a website (e.g., https://fastapi.tiangolo.com)
-
 2.Index → Choose chunk size and embedding model (default: all-MiniLM-L6-v2)
-
 3.Ask → Ask a question like “What is FastAPI?”
-
 4.Observe → The model answers using only crawled text, citing sources.
+
 
 
 ### Design Choices & Tradeoffs
 
-✅ Chunk Size (800) — balanced between retrieval precision and context coherence.
-
-✅ Overlap (100) — ensures no important information is split across chunks.
-
-✅ Embedding Model — all-MiniLM-L6-v2 chosen for speed + good semantic accuracy.
-
-✅ FAISS used for fast similarity search.
-
-✅ Politeness — respects robots.txt and includes a crawl delay.
-
-✅ Grounding — model refuses with “not found in crawled content” when unsure.
-
-⚠️ Limitation: No JavaScript-rendered pages; only static HTML text supported.
-
-⚙️ Future Work: Add persistence DB and improved text cleaning.
+* ✅ Chunk Size (800) — balanced between retrieval precision and context coherence.
+* ✅ Overlap (100) — ensures no important information is split across chunks.
+* ✅ Embedding Model — all-MiniLM-L6-v2 chosen for speed + good semantic accuracy.
+* ✅ FAISS used for fast similarity search.
+* ✅ Politeness — respects robots.txt and includes a crawl delay.
+* ✅ Grounding — model refuses with “not found in crawled content” when unsure.
+* ⚠️ Limitation: No JavaScript-rendered pages; only static HTML text supported.
+* ⚙️ Future Work: Add persistence DB and improved text cleaning.
 
 
 
  ### 🔒Safety & Guardrails
+ 
+ * Refuses to answer out-of-domain questions.
+ * Ignores any “prompt injection” instructions inside crawled pages.
+ * Logs retrieval + generation latency for monitoring.
 
-Refuses to answer out-of-domain questions.
-
-Ignores any “prompt injection” instructions inside crawled pages.
-
-Logs retrieval + generation latency for monitoring.
 
 ### 🧰 Tooling & Models
 | Component       | Tool / Library                           |
