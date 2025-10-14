@@ -280,6 +280,8 @@ uvicorn server:app --reload
 | 🚫 Unanswerable | “What is my IP address ?” | Responds: “Not found in crawled content.” |
 
 
+* Run -> python eval_queries.py     
+                      
 ### 🧾 Metrics Logged
 
 ```bash
