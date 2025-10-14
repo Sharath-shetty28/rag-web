@@ -288,7 +288,8 @@ uvicorn server:app --reload
     'p50_ms': 8191.81,
     'p95_ms': 15841.576,
     'min_ms': 7167.52,
-    'max_ms': 16691.55}
+    'max_ms': 16691.55
+   }
 }
 
 ```
