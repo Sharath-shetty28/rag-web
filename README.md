@@ -15,6 +15,46 @@ LLM: Open-source local (e.g., gemini api)
 Crawl Website → Extract & Clean Text → Chunk & Embed → Store in Vector Index → Retrieve Top-K → Generate Grounded Answer
 
 ```
+
+## Folder Structure
+
+```bash
+|   README.md       
++---backend
+|   |   .env
+|   |   eval_queries.py
+|   |   requirements.txt
+|   |   server.py
+|   |   
+|   +---core
+|   |   |   ask.py
+|   |   |   crawler.py
+|   |   |   indexer.py
+|   |   |   metrics.py
+|   |   |   
+|   |           
+|   +---data
+|   |   |   pages.json
+|   |   |   
+|   |   \---index
+|   |           index.faiss
+|   |           meta.json
+|   |           texts.npy
+|   |           
+|   +---models
+|   |   |   schemas.py
+|   |           
+|   +---routes
+|   |   |   ask_routes.py
+|   |   |   crawl_routes.py
+|   |   |   index_routes.py
+|   |   |   
+|           
+\---frontend
+        index.html
+        script.js
+        style.css
+```
     
 ## Main Components:
 | Component | Description                                                                                 |
