@@ -66,3 +66,16 @@ code {
   font-family: "Courier New", Courier, monospace;
   color: #d6336c;
 }
+footer {
+  text-align: center;
+  margin-top: 30px;
+  color: #666;
+  font-size: 14px;
+}
+footer a {
+  color: #2563eb;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}

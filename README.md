@@ -8,7 +8,7 @@ Indexing: Chunk size 800, overlap 100, embeddings via all-MiniLM-L6-v2, stored i
 
 RAG Retrieval: Top-k semantic search + grounded prompt to LLM
 
-LLM: Open-source local (e.g., Gemma-2b, Phi-2)
+LLM: Open-source local (e.g., gemini api)
 
 Refusals: Returns “not found in crawled content” if answer missing
 

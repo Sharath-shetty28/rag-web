@@ -24,8 +24,20 @@
             type="number"
             id="max_pages"
             placeholder="Max pages (default 20)"
+            min="0"
           />
-          <input type="number" id="crawl_delay_ms" placeholder="Delay (ms)" />
+          <input
+            type="number"
+            id="max_depth"
+            placeholder="Max depth (default 2)"
+            min="0"
+          />
+          <input
+            type="number"
+            id="crawl_delay_ms"
+            placeholder="Delay (ms)"
+            min="0"
+          />
           <button type="submit">Start Crawl</button>
         </form>
         <pre id="crawlResult"></pre>
@@ -38,10 +50,23 @@
         <h2>📚 Build Index</h2>
         <form id="indexForm">
           <input
-            type="text"
-            id="embedding_model"
-            placeholder="Model (default all-MiniLM-L6-v2)"
+            type="number"
+            id="chunk_size"
+            placeholder="Chunk Size (default 500)"
           />
+          <input
+            type="number"
+            id="chunk_overlap"
+            placeholder="Chunk Overlap (default 50)"
+          />
+
+          <input
+            readonly
+            id="embedding_model"
+            value="all-MiniLM-L6-v2"
+            placeholder="Embedding model"
+          />
+
           <button type="submit">Build Index</button>
         </form>
         <pre id="indexResult"></pre>
@@ -58,7 +83,12 @@
             placeholder="Type your question here..."
             required
           ></textarea>
-          <input type="number" id="top_k" placeholder="Top K (default 3)" />
+          <input
+            type="number"
+            id="top_k"
+            placeholder="Top K (default 3)"
+            min="0"
+          />
           <button type="submit">Ask</button>
         </form>
         <pre id="askResult"></pre>
@@ -66,7 +96,6 @@
     </div>
 
     <footer>
-      <button id="clearButton">Clear All Data</button>
       <p>
         Developed by
         <a href="https://sharathshetty.me" target="_blank">Sharath Shetty</a>

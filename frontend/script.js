@@ -5,12 +5,13 @@ document.getElementById("crawlForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const start_url = document.getElementById("start_url").value;
   const max_pages = document.getElementById("max_pages").value || 20;
+  const max_depth = document.getElementById("max_depth").value || 2;
   const crawl_delay_ms = document.getElementById("crawl_delay_ms").value || 0.5;
 
   const res = await fetch(`${BASE_URL}/crawl`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ start_url, max_pages, crawl_delay_ms }),
+    body: JSON.stringify({ start_url, max_pages, max_depth, crawl_delay_ms }),
   });
 
   const data = await res.json();

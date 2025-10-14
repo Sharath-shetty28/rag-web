@@ -79,29 +79,43 @@ def normalize_url(base: str, href: str) -> str | None:
     return joined
 
 
-def crawl_site(start_url: str, max_pages: int = 40, delay: float = 0.5, out_file: str = "data/pages.json"):
+from collections import deque
+from bs4 import BeautifulSoup
+import requests, logging, json, time, os
+from urllib.parse import urlparse
+
+def crawl_site(start_url: str, max_pages: int = 40, max_depth: int = 2, delay: float = 0.5, out_file: str = "data/pages.json"):
     registered_domain = get_registered_domain(start_url)
-    logging.info("Crawl start: %s (registrable domain: %s) max_pages=%d", start_url, registered_domain, max_pages)
+    logging.info("Crawl start: %s (domain=%s) max_pages=%d max_depth=%d", start_url, registered_domain, max_pages, max_depth)
 
     rp = build_robots_parser(start_url)
-    q = deque([start_url])
+    q = deque([(start_url, 0)])   # (url, depth)
     visited = set()
     pages = {}
     skipped = 0
     headers = {"User-Agent": "RAG-Crawler/1.0 (+https://example.org)"}
 
     while q and len(pages) < max_pages:
-        url = q.popleft()
+        url, depth = q.popleft()
+
         if url in visited:
             continue
 
+        # depth check
+        if depth > max_depth:
+            logging.debug("Skipping %s (depth %d > max_depth %d)", url, depth, max_depth)
+            skipped += 1
+            visited.add(url)
+            continue
+
+        # robots.txt
         if not can_fetch_robots(rp, url):
             logging.info("Blocked by robots.txt: %s", url)
             skipped += 1
             visited.add(url)
             continue
 
-        logging.info("Fetching: %s", url)
+        logging.info("[Depth %d] Fetching: %s", depth, url)
         try:
             resp = requests.get(url, headers=headers, timeout=12)
         except requests.RequestException as e:
@@ -111,6 +125,7 @@ def crawl_site(start_url: str, max_pages: int = 40, delay: float = 0.5, out_file
             continue
 
         visited.add(url)
+
         if resp.status_code != 200:
             logging.info("Non-200 status %s: %d", url, resp.status_code)
             skipped += 1
@@ -130,29 +145,30 @@ def crawl_site(start_url: str, max_pages: int = 40, delay: float = 0.5, out_file
             continue
 
         pages[url] = text
-        logging.info("Saved text from %s (chars=%d)", url, len(text))
+        logging.info("Saved text from %s (chars=%d, depth=%d)", url, len(text), depth)
 
-        # find links and enqueue same-domain URLs
-        soup = BeautifulSoup(html, "html.parser")
-        for a in soup.find_all("a", href=True):
-            nurl = normalize_url(url, a["href"])
-            if not nurl:
-                continue
-            if get_registered_domain(nurl) != registered_domain:
-                continue
-            if nurl not in visited and nurl not in q:
-                q.append(nurl)
+        # enqueue next-level links (only if within depth limit)
+        if depth < max_depth:
+            soup = BeautifulSoup(html, "html.parser")
+            for a in soup.find_all("a", href=True):
+                nurl = normalize_url(url, a["href"])
+                if not nurl:
+                    continue
+                if get_registered_domain(nurl) != registered_domain:
+                    continue
+                if nurl not in visited and all(nurl != u for u, _ in q):
+                    q.append((nurl, depth + 1))
 
         time.sleep(delay)
 
     # persist results
-    import os
     os.makedirs(os.path.dirname(out_file), exist_ok=True)
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump({"start_url": start_url, "page_count": len(pages), "pages": pages}, f, ensure_ascii=False, indent=2)
 
     logging.info("Crawl finished. pages=%d skipped=%d saved=%s", len(pages), skipped, out_file)
     return {"page_count": len(pages), "skipped_count": skipped, "urls": list(pages.keys())}
+
 
 
 if __name__ == "__main__":
