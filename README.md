@@ -33,10 +33,10 @@ Request Body
 
 ```bash
 {
-  "start_url": "https://example.com",
-  "max_pages": 30,
+  "start_url": "https://www.djangoproject.com",
+  "max_pages": 10,
   "max_depth": 2,
-  "crawl_delay_ms": 500
+  "crawl_delay_ms": 10
 }
 ```
 
@@ -44,9 +44,21 @@ Response
 
 ```bash
 {
-  "page_count": 30,
-  "skipped_count": 5,
-  "urls": ["https://example.com/about", "..."]
+  "page_count": 10,
+  "skipped_count": 0,
+  "urls": [
+    "https://www.djangoproject.com",
+    "https://www.djangoproject.com/",
+    "https://www.djangoproject.com/start/overview/",
+    "https://www.djangoproject.com/download/",
+    "https://docs.djangoproject.com/",
+    "https://www.djangoproject.com/weblog/",
+    "https://www.djangoproject.com/community/",
+    "https://code.djangoproject.com/",
+    "https://www.djangoproject.com/foundation/",
+    "https://www.djangoproject.com/fundraising/"
+  ],
+  "duration_ms": 113028.2
 }
 
 ```
@@ -58,8 +70,8 @@ Indexes crawled content.
 Request Body
 ```bash
 {
-  "chunk_size": 800,
-  "chunk_overlap": 100,
+  "chunk_size": 500,
+  "chunk_overlap": 50,
   "embedding_model": "all-MiniLM-L6-v2"
 }
 
@@ -68,20 +80,20 @@ Request Body
 Response
 ```bash
 {
-  "message": "Index built successfully",
-  "vector_count": 120
+  "vector_count": 11,
+  "errors": []
 }
 
 ```
 
 3️⃣ POST /ask
 
-Answers user questions strictly from crawled content.
+* Answers user questions strictly from crawled content.
 
 Request Body
 ```bash
 {
-  "question": "What services does the company offer?",
+  "question": "what is Django?",
   "top_k": 3
 }
 
@@ -90,18 +102,63 @@ Response
 
 ```bash
 {
-  "answer": "The company provides data analytics and AI consulting services.",
+  "answer": "Django is a high-level Python web framework designed to encourage rapid development and clean, pragmatic design. It handles much of the complexity of web development, allowing developers to focus on building their applications quickly. Django is free, open source, and built to be fast, secure, and highly scalable.\n\nKey details:\n*   High-level Python web framework\n*   Encourages rapid development and clean, pragmatic design\n*   Free and open source\n*   Designed to be fast, secure, and scalable\n*   Includes built-in features for tasks like user authentication, content administration, and site maps",
   "sources": [
-    {"url": "https://example.com/services", "snippet": "Our core services include..."}
+    {
+      "url": "https://www.djangoproject.com/",
+      "snippet": "Meet Django Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web devel"
+    },
+    {
+      "url": "https://www.djangoproject.com",
+      "snippet": "Meet Django Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web devel"
+    },
+    {
+      "url": "https://www.djangoproject.com/start/overview/",
+      "snippet": "Why Django? With Django, you can take web applications from concept to launch in a matter of hours. Django takes care of much of the hassle of web development, so you can focus on writing your app wit"
+    }
   ],
   "timings": {
-    "retrieval_ms": 125,
-    "generation_ms": 870,
-    "total_ms": 995
+    "retrieval_ms": 5608.5,
+    "generation_ms": 4535.75,
+    "total_ms": 11088.82
   }
 }
 
 ```
+case 2:
+
+Request Body
+```bash
+{
+  "question": "what is my IP address",
+  "top_k": 2
+}
+
+```
+
+Request Body
+
+```bash
+{
+  "answer": "not found in crawled content",
+  "sources": [
+    {
+      "url": "https://www.djangoproject.com/community/",
+      "snippet": "django-admin-cursor-paginator Oct. 12, 2025, 6:07 p.m. by Django Packages django-related-field-display Oct. 8, 2025, 3:39 p.m. by Django Packages An assortment of Django mixins and middleware for work"
+    },
+    {
+      "url": "https://www.djangoproject.com/",
+      "snippet": "Meet Django Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web devel"
+    }
+  ],
+  "timings": {
+    "retrieval_ms": 5569.21,
+    "generation_ms": 2005.11,
+    "total_ms": 7574.7
+  }
+}
+```
+
 
 ### 💾 Setup Instructions
 1. Clone Repository
@@ -179,20 +236,19 @@ uvicorn server:app --reload
 ### 🧪 Example Evals
 | Type            | Input                            | Expected Output                           |
 | --------------- | -------------------------------- | ----------------------------------------- |
-| ✅ Answerable    | “Who founded FastAPI?”           | Returns answer + source URLs              |
-| 🚫 Unanswerable | “Who is the president of India?” | Responds: “Not found in crawled content.” |
+| ✅ Answerable    | “What is Django? ”           | Returns answer + source URLs              |
+| 🚫 Unanswerable | “What is my IP address ?” | Responds: “Not found in crawled content.” |
 
 
 ### 🧾 Metrics Logged
 
 ```bash
 {
-  "latency_stats": {
-    "p50_ms": 12416.88,
-    "p95_ms": 15004.80,
-    "min_ms": 8864.18,
-    "max_ms": 15292.35
-  }
+ Latency stats: {
+    'p50_ms': 8191.81,
+    'p95_ms': 15841.576,
+    'min_ms': 7167.52,
+    'max_ms': 16691.55}
 }
 
 ```
