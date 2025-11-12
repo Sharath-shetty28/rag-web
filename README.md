@@ -312,3 +312,20 @@ python eval_queries.py
 
 > Average query: ~8 s. Tail latency driven by model generation.  
 > Retrieval and embedding times were sub-second, confirming that generation is the primary contributor.
+
+
+🧩 Summary Flow
+```
+Raw File (PDF, DOCX, HTML)
+      ↓
+Parsing (Extract Text)
+      ↓
+Cleaning (Remove noise)
+      ↓
+Chunking (Split into small pieces)
+      ↓
+Embedding (Convert to vectors)
+      ↓
+Store in Vector DB (for Retrieval)
+
+```
