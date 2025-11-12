@@ -329,3 +329,8 @@ Embedding (Convert to vectors)
 Store in Vector DB (for Retrieval)
 
 ```
+
+Raw text → clean → split into 400–800 token chunks (with 10–20% overlap)
+→ send chunks to embedding model in batches (e.g., 100 per batch)
+→ store embeddings + chunk metadata in vector DB
+
